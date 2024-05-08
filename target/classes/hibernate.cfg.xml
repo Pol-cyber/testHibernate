@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/TestHibernate</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">13.07.2002</property>
+        <property name="hibernate.current_session_context_class">thread
+        </property>  <!--Рішило проблему із getCurrentSession-->
+<!--        <property name="hibernate.use_identifier_rollback">true</property>-->  <!-- Даний параметр забирає ідентифікатор
+             при переході екземпляра з хранимого состояния в удаленное за допомогою (session.remove() тощо)-->
+<!--        <property name="hibernate.order_updates">true</property>-->  <!-- дана властивість добавляє порядок
+             оновлення. Якщо значення true, то не залежно від порядку в програмі Hibernate завжди буде виконувати
+             перше оновлення даних із меншим первинним ключем таким самим знижує можливість взаємного
+             блокування (Hibernate книжка ст.326)-->
+<!--         коментарии для журналу транзакцій (hibernate автоматично генерує но можемо і ми згенерувати використвши підказку)-->
+<!--        <property name="hibernate.use_sql_comments">true</property>-->
+        
+        
+<!--        Кешировання-->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.internal.SingletonEhcacheRegionFactory</property>
+        <property name="net.sf.ehcache.configurationResourceName">/cache/ehcache.xml</property>
+
+        <property name="hibernate.cache.use_structured_entries">false</property>
+
+        <property name="hibernate.generate_statistics">true</property>
+<!--                   -->
+
+
+<!--        JMX-->
+        <property name="hibernate.jmx.enabled">true</property>
+        <property name="hibernate.jmx.usePlatformServer">true</property>
+        
+
+        
+        <!--      Використовується для автоматичного генерування таблиць, sequence та ін.-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <property name="hibernate.hbm2ddl.import_files_sql_extractor">
+            org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+        </property> <!-- щоб файл сценарію
+            читався в багато строк розділеними ";"-->
+
+<!--        <property name="javax.persistence.schema-generation.scripts.action">create</property>-->
+<!--        <property name="javax.persistence.schema-generation.scripts.create-target">src/main/resources/complexschemas/create.sql</property>-->
+
+        <!-- встановлення порядку виконання сценарію чи метаданих створених hibernate, також доступні
+         параметри: "metadata-then-script","script","metadata"-->
+        <property name="javax.persistence.schema-generation.create-source">script-then-metadata</property>
+        <!--      Використовується для користувацьких стратегій імен-->
+        <!--      <property name="hibernate.physical_naming_strategy">PackageForHib.OvverideHibClass.NameStrategy</property>-->
+
+        <!-- встановлення файлу сценарію створення -->
+        <property name="javax.persistence.schema-generation.create-script-source">
+            src/main/resources/complexschemas/CreateScript.sql.txt</property>
+
+        <property name="javax.persistence.sql-load-script-source">src/main/resources/complexschemas/LoadScript.sql</property>
+
+        <!--             Код що потрібен для підключення логування-->
+<!--        <property name="hibernate.show_sql">true</property>-->
+<!--        <property name="hibernate.format_sql">true</property>-->
+
+<!--        <property name="org.hibernate.SQL">TRACE</property>-->
+<!--        <property name="org.hibernate.type.descriptor.sql.BasicBinder">TRACE</property>-->
+
+
+
+        <mapping class="PackageForHib.domain.Message"/>
+              <mapping resource="Native.hbm.xml"/>
+<!--        <mapping resource="entity.orm.xml"/>-->
+        <mapping class="PackageForHib.domain.myview.ViewMessage"/>
+        <mapping class="PackageForHib.domain.Login"/>
+        <mapping class="PackageForHib.domain.Item"/>
+        <mapping class="PackageForHib.domain.Cat"/>
+        <mapping class="PackageForHib.domain.Users"/>
+        <mapping class="PackageForHib.domain.HereByte"/>
+        <mapping class="PackageForHib.domain.Balance"/>
+        <mapping class="PackageForHib.domain.ForUserType"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.firstMethod.Bird"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.firstMethod.Dog"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.firstMethod.Animal"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.secondMethod.Banana"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.secondMethod.Fruit"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.secondMethod.Orange"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.thirdMethod.Computer"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.thirdMethod.Gaming"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.thirdMethod.Office"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.fourthMethod.BillingDetails"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.fourthMethod.BankAccount"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.fourthMethod.CreditCard"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.MixInheritance.Vehicle"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.MixInheritance.Car"/>
+        <mapping class="PackageForHib.domain.typeInheritEntity.MixInheritance.Motorcycle"/>
+        <mapping class="PackageForHib.domain.TableForInheritEmbeddable"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.withInheritClass.Maid"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.withInheritClass.Customer"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.Rabbit"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.Airplane"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.Army"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.ElCoMapNotSort"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.sortedCollection.comparatorSort.MapCompSort"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.sortedCollection.comparatorSort.SetNaturalSort"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.sortedCollection.orderBySortExamle.SetWithOrderBy"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.sortedCollection.orderBySortExamle.ContainerOrderBy"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.EmbeddableELCOl.EmbeddableSet"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.EmbeddableELCOl.ConteinerEmbeddable"/>
+        <mapping class="PackageForHib.domain.entityWithElementCollection.EmbeddableELCOl.MapWithEmbeddable"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.Host"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.Player"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.OneToOneClass.Heart"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.OneToOneClass.People"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.OneToOneClass.Owner"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.OneToOneClass.Parrot"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.OneToOneClass.BackPack"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.OneToOneClass.Tree"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.ListParent"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.ListChild"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.NotNecessaryConnect.Garage"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.NotNecessaryConnect.Motorbike"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.InEmbeddable.Image"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.InEmbeddable.RelationForPazzle"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.Animal"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.Human"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.TestImmutableField"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.Student"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.Course"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.LinkTableForSTAndCO"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.WithEmbeddable.Bayer"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.WithEmbeddable.Product"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.WithEmbeddable.Shop"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.WithMap.Mug"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.WithMap.Spoon"/>
+        <mapping class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToManyClass.WithMap.Tea"/>
+        <mapping class="PackageForHib.domain.entityUseUserDomain.TestDomainEmailAddress"/>
+        <mapping class="PackageForHib.domain.OptimisticLockTest.LongVersion"/>
+        <mapping class="PackageForHib.domain.OptimisticLockTest.DateVersion"/>
+        <mapping class="PackageForHib.domain.EntityForTestLazyCollection.SecondEntity"/>
+        <mapping class="PackageForHib.domain.EntityForTestLazyCollection.FirstEntity"/>
+        <mapping class="PackageForHib.domain.EntityForTestLazyCollection.ThirdEntity"/>
+        <mapping class="PackageForHib.domain.CheckCascadeProperty.SecondForCascade"/>
+        <mapping class="PackageForHib.domain.CheckCascadeProperty.FirstForCascade"/>
+        <mapping class="PackageForHib.domain.EntityListenersPriemniki.EntityForListener"/>
+        <mapping class="PackageForHib.domain.dataFilter.TreeC"/>
+        <mapping class="PackageForHib.domain.dataFilter.Area"/>
+        <mapping class="PackageForHib.domain.Employee"/>
+        <mapping class="PackageForHib.domain.EntityForMyFindLoader"/>
+        <!-- DB schema will be updated if needed -->
+    </session-factory>
+</hibernate-configuration>

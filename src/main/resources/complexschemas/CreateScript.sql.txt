@@ -1,0 +1,1 @@
+create domain EMAIL_ADDRESS2 as varchar check (position('@' IN value) > 1);

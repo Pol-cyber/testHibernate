@@ -1,0 +1,61 @@
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
+                   package="PackageForHib.domain"
+                   default-access="field">
+<!--    <class name="PackageForHib.domain.Message">-->
+<!--        <id name="id">-->
+<!--            <generator class="native"/>-->
+<!--&lt;!&ndash;            <generator class="native">&ndash;&gt;     &lt;!&ndash; По ідеї це заміна GenericGenerator як аннотації &ndash;&gt;-->
+<!--&lt;!&ndash;                <param name="sequence_name">myTestSequence</param>&ndash;&gt;-->
+<!--&lt;!&ndash;            </generator>&ndash;&gt;-->
+<!--        </id>-->
+<!--        <property name="text"/>-->
+<!--    </class>-->
+
+
+    <query name="myNewQuery" >SELECT m FROM Message m WHERE id = 1</query>
+    <sql-query name="mySQLQuery" >
+        <return class="PackageForHib.domain.Message"/>
+        SELECT * FROM Message
+    </sql-query>
+
+    <sql-query name="ReurnAllEmployeeTree">
+        <return class="Employee"/>
+        <return-scalar column="PATH"/>
+        <return-scalar column="LEVEL" type="integer"/>
+        WITH RECURSIVE EmployeeTree(ID,NAME,BOSS_ID,PATH,LEVEL) AS(
+          SELECT ID,NAME,BOSS_ID, NAME || '\',0 FROM employee e WHERE BOSS_ID IS NULL
+          UNION ALL
+          SELECT e.ID,e.NAME,e.BOSS_ID, et.PATH || e.NAME || '\', et.LEVEL+1
+          FROM EmployeeTree et JOIN employee e ON e.BOSS_ID = et.ID
+        )
+        SELECT * FROM EmployeeTree
+    </sql-query>
+
+
+
+    <sql-query name="ReturnHostWithPlayer">
+        <return class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.Host">
+            <return-property name="id" column="phost_id"/>
+            <return-property name="text" column="text"/>
+        </return>
+        <return class="PackageForHib.domain.entityWithRelationship.defaultClass.ManyToOneOneToMany.Player">
+            <return-property name="id" column="player_id"/>
+            <return-property name="host" column="host_id"/>
+        </return>
+        SELECT h.id AS phost_id, h.text, p.id AS player_id, p.host_id FROM host h LEFT OUTER JOIN player p
+        ON h.id = p.host_id
+        WHERE h.id = ?
+    </sql-query>
+
+
+</hibernate-mapping>
+
+
+<!--package - вказує файл у якому розташовані класи отображения (ті що повинні зєднатись з БД)-->
+<!-- default-access - вказує методи доступу до змінних, через геттери сеттери чи поля классу -->
+
+<!--Несмотря на возможность объявления отображений для нескольких классов
+в одном файле, включив несколько элементов <class>, большое количество старых
+проектов Hibernate использует один файл отображения для каждого хранимого
+класса. По соглашению файл должен иметь то же имя и пакет, что и класс: напри-
+мер, my/model/Item.hbm.xml – для класса my.model.Item.-->
