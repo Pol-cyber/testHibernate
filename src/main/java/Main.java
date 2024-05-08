@@ -38,7 +38,7 @@ public class Main {
 
     public static int methodGetSomething(ZipCode zipCode){
         if(zipCode instanceof SwissCode){
-            System.out.println("Yes");
+            System.out.println("YesS");
         }
         return 1;
     }
